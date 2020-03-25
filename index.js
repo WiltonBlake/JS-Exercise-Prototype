@@ -39,9 +39,23 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+};
+Person.prototype.eat = function (edible) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(edible);
+  }
+};
+Person.prototype.poop = function () {
+  this.stomach = [];
+};
+Person.prototype.toString = function () {
+  return `${this.name}, ${this.age}`;
+};
 
-}
 
 /*
   TASK 2
@@ -57,8 +71,14 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.tank = 0;
+  this.odometer = 0;
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+}
+Car.prototype.fill = function (gallons) {
+  this.tank = this.tank + gallons;
 }
 
 /*
@@ -68,18 +88,23 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
+}
+Baby.prototype = Object.create(Person.prototype)
+Baby.prototype.play = function () {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Implicit Binding - This occurs when dot notation is used to invoke a function. Whatever is left of the dot becomes th context for "this" in the function.
+  2. Explicit Binding - This occurs when .call(), .apply(), or .bind() are used on a function. Each one of these methods explicitly tells us what the "this" refers to.
+  3. New Binding - If a function is called with "new," the "this" keyword is referencing that new object that Javascript created. 
+  4. Window Binding - When none of the above is used, JavaScript defaults the "this" keyword to reference the window object. If "strict mode" is enabled, JavaScript will make "this" undefined.
 */
 
 
